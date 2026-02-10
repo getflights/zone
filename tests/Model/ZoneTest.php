@@ -4,11 +4,12 @@ namespace CommerceGuys\Zone\Tests\Model;
 
 use CommerceGuys\Zone\Model\Zone;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \CommerceGuys\Zone\Model\Zone
  */
-class ZoneTest extends \PHPUnit_Framework_TestCase
+class ZoneTest extends TestCase
 {
     /**
      * @var Zone
@@ -18,7 +19,7 @@ class ZoneTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->zone = new Zone();
     }

@@ -16,7 +16,7 @@ interface ZoneRepositoryInterface
      *
      * @return ZoneInterface
      */
-    public function get($id);
+    public function get(string $id);
 
     /**
      * Returns all available zone instances.
@@ -25,5 +25,5 @@ interface ZoneRepositoryInterface
      *
      * @return ZoneInterface[] An array of zone instances.
      */
-    public function getAll($scope = null);
+    public function getAll(string|null $scope = null);
 }

@@ -77,7 +77,7 @@ abstract class ZoneMember implements ZoneMemberEntityInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentZone(ZoneEntityInterface $parentZone = null)
+    public function setParentZone(ZoneEntityInterface|null $parentZone = null)
     {
         $this->parentZone = $parentZone;
 

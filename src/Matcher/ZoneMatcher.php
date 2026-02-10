@@ -27,7 +27,7 @@ class ZoneMatcher implements ZoneMatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function match(AddressInterface $address, $scope = null)
+    public function match(AddressInterface $address, string|null $scope = null)
     {
         $zones = $this->matchAll($address, $scope);
 
@@ -37,7 +37,7 @@ class ZoneMatcher implements ZoneMatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function matchAll(AddressInterface $address, $scope = null)
+    public function matchAll(AddressInterface $address, string|null $scope = null)
     {
         // Find all matching zones.
         $results = [];

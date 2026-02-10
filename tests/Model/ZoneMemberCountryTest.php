@@ -2,12 +2,15 @@
 
 namespace CommerceGuys\Zone\Tests\Model;
 
+use CommerceGuys\Addressing\Address;
 use CommerceGuys\Zone\Model\ZoneMemberCountry;
+use CommerceGuys\Zone\Model\ZoneMemberZone;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \CommerceGuys\Zone\Model\ZoneMemberCountry
  */
-class ZoneMemberCountryTest extends \PHPUnit_Framework_TestCase
+class ZoneMemberCountryTest extends TestCase
 {
     /**
      * @var ZoneMemberZone
@@ -17,7 +20,7 @@ class ZoneMemberCountryTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->zoneMember = new ZoneMemberCountry();
     }
@@ -100,13 +103,13 @@ class ZoneMemberCountryTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::match
      *
-     * @uses \CommerceGuys\Zone\Model\ZoneMemberCountry::setCountryCode
-     * @uses \CommerceGuys\Zone\Model\ZoneMemberCountry::setAdministrativeArea
-     * @uses \CommerceGuys\Zone\Model\ZoneMemberCountry::setLocality
-     * @uses \CommerceGuys\Zone\Model\ZoneMemberCountry::setDependentLocality
-     * @uses \CommerceGuys\Zone\Model\ZoneMemberCountry::setIncludedPostalCodes
-     * @uses \CommerceGuys\Zone\Model\ZoneMemberCountry::setExcludedPostalCodes
-     * @uses \CommerceGuys\Addressing\PostalCodeHelper
+     * @uses         \CommerceGuys\Zone\Model\ZoneMemberCountry::setCountryCode
+     * @uses         \CommerceGuys\Zone\Model\ZoneMemberCountry::setAdministrativeArea
+     * @uses         \CommerceGuys\Zone\Model\ZoneMemberCountry::setLocality
+     * @uses         \CommerceGuys\Zone\Model\ZoneMemberCountry::setDependentLocality
+     * @uses         \CommerceGuys\Zone\Model\ZoneMemberCountry::setIncludedPostalCodes
+     * @uses         \CommerceGuys\Zone\Model\ZoneMemberCountry::setExcludedPostalCodes
+     * @uses         \CommerceGuys\Addressing\PostalCodeHelper
      * @dataProvider addressProvider
      */
     public function testMatch($address, $expectedResult)
@@ -123,14 +126,14 @@ class ZoneMemberCountryTest extends \PHPUnit_Framework_TestCase
     /**
      * Provides addresses and the expected match results.
      */
-    public function addressProvider()
+    public static function addressProvider()
     {
-        $emptyAddress = $this->getAddress();
-        $countryAddress = $this->getAddress('CN');
-        $administrativeAreaAddress = $this->getAddress('CN', 'Hebei Sheng');
-        $localityAddress = $this->getAddress('CN', 'Hebei Sheng', 'Handan Shi');
-        $dependentLocalityAddress = $this->getAddress('CN', 'Hebei Sheng', 'Handan Shi', 'Ci Xian');
-        $fullAddress = $this->getAddress('CN', 'Hebei Sheng', 'Handan Shi', 'Ci Xian', '123456');
+        $emptyAddress = self::getAddress();
+        $countryAddress = self::getAddress('CN');
+        $administrativeAreaAddress = self::getAddress('CN', 'Hebei Sheng');
+        $localityAddress = self::getAddress('CN', 'Hebei Sheng', 'Handan Shi');
+        $dependentLocalityAddress = self::getAddress('CN', 'Hebei Sheng', 'Handan Shi', 'Ci Xian');
+        $fullAddress = self::getAddress('CN', 'Hebei Sheng', 'Handan Shi', 'Ci Xian', '123456');
 
         return [
             [$emptyAddress, false],
@@ -145,56 +148,28 @@ class ZoneMemberCountryTest extends \PHPUnit_Framework_TestCase
     /**
      * Returns a mock address.
      *
-     * @param string $countryCode        The country code.
-     * @param string $administrativeArea The administrative area id.
-     * @param string $locality           The locality id.
-     * @param string $dependentLocality  The dependent locality id.
-     * @param string $postalCode         The postal code.
+     * @param string|null $countryCode The country code.
+     * @param string|null $administrativeArea The administrative area id.
+     * @param string|null $locality The locality id.
+     * @param string|null $dependentLocality The dependent locality id.
+     * @param string|null $postalCode The postal code.
      *
-     * @return \CommerceGuys\Addressing\Address
+     * @return Address
      */
-    protected function getAddress(
-        $countryCode = null,
-        $administrativeArea = null,
-        $locality = null,
-        $dependentLocality = null,
-        $postalCode = null
-    ) {
-        $address = $this
-            ->getMockBuilder('CommerceGuys\Addressing\Address')
-            ->disableOriginalConstructor()
-            ->getMock();
-        if ($countryCode) {
-            $address
-                ->expects($this->any())
-                ->method('getCountryCode')
-                ->will($this->returnValue($countryCode));
-        }
-        if ($administrativeArea) {
-            $address
-                ->expects($this->any())
-                ->method('getAdministrativeArea')
-                ->will($this->returnValue($administrativeArea));
-        }
-        if ($locality) {
-            $address
-                ->expects($this->any())
-                ->method('getLocality')
-                ->will($this->returnValue($locality));
-        }
-        if ($dependentLocality) {
-            $address
-                ->expects($this->any())
-                ->method('getDependentLocality')
-                ->will($this->returnValue($dependentLocality));
-        }
-        if ($postalCode) {
-            $address
-                ->expects($this->any())
-                ->method('getPostalCode')
-                ->will($this->returnValue($postalCode));
-        }
-
-        return $address;
+    protected static function getAddress(
+        string|null $countryCode = null,
+        string|null $administrativeArea = null,
+        string|null $locality = null,
+        string|null $dependentLocality = null,
+        string|null $postalCode = null
+    )
+    {
+        return new Address(
+            $countryCode ?? '',
+            $administrativeArea ?? '',
+            $locality ?? '',
+            $dependentLocality ?? '',
+            $postalCode ?? ''
+        );
     }
 }

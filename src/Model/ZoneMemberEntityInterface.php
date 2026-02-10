@@ -29,5 +29,5 @@ interface ZoneMemberEntityInterface extends ZoneMemberInterface
      *
      * @return self
      */
-    public function setParentZone(ZoneEntityInterface $parentZone = null);
+    public function setParentZone(ZoneEntityInterface|null $parentZone = null);
 }

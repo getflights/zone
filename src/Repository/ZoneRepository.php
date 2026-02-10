@@ -46,7 +46,7 @@ class ZoneRepository implements ZoneRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function get($id)
+    public function get(string $id)
     {
         if (!isset($this->zones[$id])) {
             $definition = $this->loadDefinition($id);
@@ -59,7 +59,7 @@ class ZoneRepository implements ZoneRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getAll($scope = null)
+    public function getAll(string|null $scope = null)
     {
         // Build the list of all available zones.
         if (empty($this->zoneIndex)) {

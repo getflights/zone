@@ -3,14 +3,16 @@
 namespace CommerceGuys\Addressing\Tests\Repository;
 
 use CommerceGuys\Addressing\Subdivision\SubdivisionRepository;
+use CommerceGuys\Zone\Exception\UnknownZoneException;
 use CommerceGuys\Zone\Model\Zone;
 use CommerceGuys\Zone\Repository\ZoneRepository;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \CommerceGuys\Zone\Repository\ZoneRepository
  */
-class ZoneRepositoryTest extends \PHPUnit_Framework_TestCase
+class ZoneRepositoryTest extends TestCase
 {
     /**
      * Known zones.
@@ -75,8 +77,10 @@ class ZoneRepositoryTest extends \PHPUnit_Framework_TestCase
         // Instantiate the zone repository and confirm that the
         // definition path was properly set.
         $zoneRepository = new ZoneRepository('vfs://resources/zone/');
-        $definitionPath = $this->getObjectAttribute($zoneRepository, 'definitionPath');
-        $this->assertEquals('vfs://resources/zone/', $definitionPath);
+        $reflected_constraint = (new \ReflectionObject($zoneRepository))->getProperty('definitionPath');
+        $reflected_constraint->setAccessible(TRUE);
+        $constraint = $reflected_constraint->getValue($zoneRepository);
+        $this->assertEquals('vfs://resources/zone/', $constraint);
 
         return $zoneRepository;
     }
@@ -133,11 +137,11 @@ class ZoneRepositoryTest extends \PHPUnit_Framework_TestCase
      * @covers ::get
      * @covers ::loadDefinition
      * @covers ::createZoneFromDefinition
-     * @expectedException \CommerceGuys\Zone\Exception\UnknownZoneException
      * @depends testConstructor
      */
     public function testGetNonExistingZone($zoneRepository)
     {
+        $this->expectException(UnknownZoneException::class);
         $zone = $zoneRepository->get('rs');
     }
 

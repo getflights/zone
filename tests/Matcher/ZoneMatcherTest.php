@@ -4,11 +4,13 @@ namespace CommerceGuys\Addressing\Tests\Repository;
 
 use CommerceGuys\Zone\Model\Zone;
 use CommerceGuys\Zone\Matcher\ZoneMatcher;
+use CommerceGuys\Zone\Repository\ZoneRepository;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \CommerceGuys\Zone\Matcher\ZoneMatcher
  */
-class ZoneMatcherTest extends \PHPUnit_Framework_TestCase
+class ZoneMatcherTest extends TestCase
 {
     /**
      * Zones.
@@ -50,7 +52,7 @@ class ZoneMatcherTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $zones = [];
         foreach ($this->zones as $definition) {
@@ -63,7 +65,7 @@ class ZoneMatcherTest extends \PHPUnit_Framework_TestCase
         $repository
             ->expects($this->any())
             ->method('getAll')
-            ->will($this->returnValue($zones));
+            ->willReturn($zones);
         $this->matcher = new ZoneMatcher($repository);
     }
 
@@ -81,7 +83,10 @@ class ZoneMatcherTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $matcher = new ZoneMatcher($repository);
         // Confirm that the repository was properly set.
-        $this->assertSame($repository, $this->getObjectAttribute($matcher, 'repository'));
+        $reflected_constraint = (new \ReflectionObject($matcher))->getProperty('repository');
+        $reflected_constraint->setAccessible(TRUE);
+        $constraint = $reflected_constraint->getValue($matcher);
+        $this->assertInstanceOf(ZoneRepository::class, $constraint);
     }
 
     /**
@@ -143,16 +148,16 @@ class ZoneMatcherTest extends \PHPUnit_Framework_TestCase
         $zone
             ->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue($id));
+            ->willReturn($id);
         $zone
             ->expects($this->any())
             ->method('getPriority')
-            ->will($this->returnValue($priority));
+            ->willReturn($priority);
         $zone
             ->expects($this->any())
             ->method('match')
             ->with($this->anything())
-            ->will($this->returnValue($match));
+            ->willReturn($match);
 
         return $zone;
     }

@@ -15,7 +15,7 @@ interface ZoneMatcherInterface
      *
      * @return ZoneInterface|null
      */
-    public function match(AddressInterface $address, $scope = null);
+    public function match(AddressInterface $address, string|null $scope = null);
 
     /**
      * Returns all matching zones for the provided address.
@@ -25,5 +25,5 @@ interface ZoneMatcherInterface
      *
      * @return ZoneInterface[]
      */
-    public function matchAll(AddressInterface $address, $scope = null);
+    public function matchAll(AddressInterface $address, string|null $scope = null);
 }

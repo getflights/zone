@@ -2,10 +2,12 @@
 
 namespace CommerceGuys\Zone\Tests\Model;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @coversDefaultClass \CommerceGuys\Zone\Model\ZoneMember
  */
-class ZoneMemberTest extends \PHPUnit_Framework_TestCase
+class ZoneMemberTest extends TestCase
 {
     /**
      * @var ZoneMember
@@ -15,7 +17,7 @@ class ZoneMemberTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->zoneMember = $this->getMockForAbstractClass('\CommerceGuys\Zone\Model\ZoneMember');
     }

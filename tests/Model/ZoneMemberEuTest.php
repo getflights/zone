@@ -3,11 +3,12 @@
 namespace CommerceGuys\Zone\Tests\Model;
 
 use CommerceGuys\Zone\Model\ZoneMemberEu;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \CommerceGuys\Zone\Model\ZoneMemberEu
  */
-class ZoneMemberEuTest extends \PHPUnit_Framework_TestCase
+class ZoneMemberEuTest extends TestCase
 {
     /**
      * @var ZoneMemberEu
@@ -17,7 +18,7 @@ class ZoneMemberEuTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->zoneMember = new ZoneMemberEu();
     }
